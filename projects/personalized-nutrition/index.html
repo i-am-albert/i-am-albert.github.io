@@ -87,11 +87,11 @@
                 <select id="iodine_nondiet" required><option value="" disabled selected hidden>Please choose...</option><option value="poor_practice">No/Unsure (Higher Risk)</option><option value="good_practice">Yes (Lower Risk)</option></select>
             </fieldset>
 
-            <button type="button" id="calculateButton">Show My Illustrative Snapshot</button>
+            <button type="button" id="calculateButton">Show My Results</button>
         </form>
 
         <div id="resultsArea">
-            <h2>Illustrative Snapshot</h2>
+            <h2>Results</h2>
             <div id="vitaminDResult">Vitamin D: ...</div>
             <div id="ironResult">Iron: ...</div>
             <div id="folateResult">Folate: ...</div>
@@ -159,7 +159,7 @@
                         if (sunlight >= 4) vitDScore += 45; else if (sunlight >= 2) vitDScore += 20; else if (sunlight > 0.75) vitDScore += 5;
                     }
                     if (vitDScore > maxScore) vitDScore = maxScore; if (vitDScore < 0) vitDScore = 0;
-                    document.getElementById('vitaminDResult').textContent = `Vitamin D: ${getStatusText(vitDScore)} (Illustrative Score: ${vitDScore}/${maxScore})`;
+                    document.getElementById('vitaminDResult').textContent = `Vitamin D: ${getStatusText(vitDScore)} (Score: ${vitDScore}/${maxScore})`;
 
                     // --- IRON ---
                     const iron_diet_val = document.getElementById('iron_food').value;
@@ -172,7 +172,7 @@
                         else if (iron_diet_val === 'moderate') ironScore -= 15;
                     }
                     if (ironScore > maxScore) ironScore = maxScore; if (ironScore < 0) ironScore = 0;
-                    document.getElementById('ironResult').textContent = `Iron: ${getStatusText(ironScore)} (Illustrative Score: ${ironScore}/${maxScore})`;
+                    document.getElementById('ironResult').textContent = `Iron: ${getStatusText(ironScore)} (Score: ${ironScore}/${maxScore})`;
 
                     // --- FOLATE ---
                     const folate_diet_val = document.getElementById('folate_food').value;
@@ -182,7 +182,7 @@
                     if (folate_nondiet_val === 'low_impact') folateScore += 15;
                     else if (folate_nondiet_val === 'high_impact') folateScore -= 20;
                     if (folateScore > maxScore) folateScore = maxScore; if (folateScore < 0) folateScore = 0;
-                    document.getElementById('folateResult').textContent = `Folate: ${getStatusText(folateScore)} (Illustrative Score: ${folateScore}/${maxScore})`;
+                    document.getElementById('folateResult').textContent = `Folate: ${getStatusText(folateScore)} (Score: ${folateScore}/${maxScore})`;
 
                     // --- MAGNESIUM ---
                     const mg_diet_val = document.getElementById('mg_food').value;
@@ -192,7 +192,7 @@
                     if (mg_nondiet_val === 'low_stress') mgScore += 20;
                     else if (mg_nondiet_val === 'high_stress') mgScore -= 20;
                     if (mgScore > maxScore) mgScore = maxScore; if (mgScore < 0) mgScore = 0;
-                    document.getElementById('magnesiumResult').textContent = `Magnesium: ${getStatusText(mgScore)} (Illustrative Score: ${mgScore}/${maxScore})`;
+                    document.getElementById('magnesiumResult').textContent = `Magnesium: ${getStatusText(mgScore)} (Score: ${mgScore}/${maxScore})`;
 
                     // --- VITAMIN B12 ---
                     const b12_diet_val = document.getElementById('b12_food').value;
@@ -206,7 +206,7 @@
                     else if (b12_nondiet_val === 'factor_present') b12Score -= 15;
                     if (b12_diet_val === 'vegan' && b12Score > 30) b12Score = 30;
                     if (b12Score > maxScore) b12Score = maxScore; if (b12Score < 0) b12Score = 0;
-                    document.getElementById('vitaminB12Result').textContent = `Vitamin B12: ${getStatusText(b12Score)} (Illustrative Score: ${b12Score}/${maxScore})`;
+                    document.getElementById('vitaminB12Result').textContent = `Vitamin B12: ${getStatusText(b12Score)} (Score: ${b12Score}/${maxScore})`;
 
                     // --- IODINE ---
                     const iodine_diet_val = document.getElementById('iodine_food').value;
@@ -216,7 +216,7 @@
                     if (iodine_nondiet_val === 'good_practice') iodineScore += 50;
                     else if (iodine_nondiet_val === 'poor_practice') iodineScore += 5; // Using non-iodized salt mainly
                     if (iodineScore > maxScore) iodineScore = maxScore; if (iodineScore < 0) iodineScore = 0;
-                    document.getElementById('iodineResult').textContent = `Iodine: ${getStatusText(iodineScore)} (Illustrative Score: ${iodineScore}/${maxScore})`;
+                    document.getElementById('iodineResult').textContent = `Iodine: ${getStatusText(iodineScore)} (Score: ${iodineScore}/${maxScore})`;
                 });
             }
         });
