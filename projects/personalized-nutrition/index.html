@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrition Snapshot</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background-color: #fff; color: #333; }
+        .container { max-width: 600px; margin: auto; padding: 15px; border: 1px solid #ccc; }
+        h1 { text-align: center; font-size: 1.5em; margin-bottom: 10px; }
+        .disclaimer { font-size: 0.8em; background-color: #ffffdd; border: 1px solid #ccc; padding: 8px; margin-bottom: 15px; }
+        fieldset { margin-bottom: 15px; padding: 10px; border: 1px solid #eee; }
+        legend { font-weight: bold; font-size: 1em; padding: 0 3px; margin-bottom: 5px;}
+        label { display: block; margin-top: 8px; margin-bottom: 2px; font-size: 0.9em; }
+        input[type="number"], select { width: 98%; padding: 6px; margin-bottom: 8px; border: 1px solid #ccc; box-sizing: border-box;}
+        .skin-tone-options button { padding: 6px 8px; margin: 2px; border: 1px solid #aaa; background-color: #f0f0f0; cursor: pointer; font-size: 0.85em;}
+        .skin-tone-options button.selected { background-color: #007bff; color: white; }
+        #calculateButton { width: 100%; padding: 10px; background-color: #5cb85c; color: white; border: none; cursor: pointer; font-size: 1em; margin-top:10px;}
+        #calculateButton:hover { background-color: #4cae4c; }
+        #resultsArea { margin-top: 15px; padding: 10px; background: #f9f9f9; border: 1px solid #eee; }
+        #resultsArea h2 { font-size: 1.1em; margin-top: 0; text-align: center; }
+        #resultsArea div { margin-bottom: 5px; font-size: 0.9em; padding: 3px; border-left: 2px solid #007bff;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Nutrition Snapshot</h1>
+        <p class="disclaimer"><strong>Note: This is only for demonstration purposes</strong></p>
+
+        <form id="nutritionForm">
+            <!-- VITAMIN D -->
+            <fieldset>
+                <legend>Vitamin D</legend>
+                <label for="vitD_food">Dietary Vitamin D (Fatty fish, fortified foods):</label>
+                <select id="vitD_food" required><option value="" disabled selected hidden>Please choose...</option><option value="low">Low</option><option value="moderate">Moderate</option><option value="high">High</option></select>
+                <label for="sunlightHours">Sunlight Hours/Day (average):</label>
+                <input type="number" id="sunlightHours" min="0" max="10" step="0.5" value="1" required>
+                <label>Approx. Natural Skin Tone:</label>
+                <div class="skin-tone-options">
+                    <button type="button" class="skin-tone-btn" data-value="fair">Fair</button> <button type="button" class="skin-tone-btn" data-value="medium">Medium</button> <button type="button" class="skin-tone-btn" data-value="dark">Dark</button>
+                    <input type="hidden" id="selectedSkinTone" required>
+                </div>
+            </fieldset>
+
+            <!-- IRON -->
+            <fieldset>
+                <legend>Iron</legend>
+                <label for="iron_food">Dietary Iron (Meat, beans, lentils, spinach):</label>
+                <select id="iron_food" required><option value="" disabled selected hidden>Please choose...</option><option value="low">Low</option><option value="moderate">Moderate</option><option value="high">High</option></select>
+                <label for="iron_nondiet">Non-Diet Factor (e.g., Intense Exercise regularly?):</label>
+                <select id="iron_nondiet" required><option value="" disabled selected hidden>Please choose...</option><option value="low_need">No (Lower Need/Impact)</option><option value="high_need">Yes (Higher Need/Impact)</option></select>
+            </fieldset>
+
+            <!-- FOLATE -->
+            <fieldset>
+                <legend>Folate (B9)</legend>
+                <label for="folate_food">Dietary Folate (Leafy greens, legumes):</label>
+                <select id="folate_food" required><option value="" disabled selected hidden>Please choose...</option><option value="low">Low</option><option value="moderate">Moderate</option><option value="high">High</option></select>
+                <label for="folate_nondiet">Non-Diet Factor (e.g., Regular Alcohol Intake?):</label>
+                <select id="folate_nondiet" required><option value="" disabled selected hidden>Please choose...</option><option value="low_impact">No/Rarely (Low Impact)</option><option value="high_impact">Yes (Higher Impact)</option></select>
+            </fieldset>
+
+            <!-- MAGNESIUM -->
+            <fieldset>
+                <legend>Magnesium</legend>
+                <label for="mg_food">Dietary Magnesium (Nuts, seeds, whole grains):</label>
+                <select id="mg_food" required><option value="" disabled selected hidden>Please choose...</option><option value="low">Low</option><option value="moderate">Moderate</option><option value="high">High</option></select>
+                <label for="mg_nondiet">Non-Diet Factor (e.g., Typical Stress Levels):</label>
+                <select id="mg_nondiet" required><option value="" disabled selected hidden>Please choose...</option><option value="low_stress">Low Stress</option><option value="high_stress">Moderate/High Stress</option></select>
+            </fieldset>
+
+            <!-- VITAMIN B12 -->
+            <fieldset>
+                <legend>Vitamin B12</legend>
+                <label for="b12_food">Dietary B12 (Animal products, fortified foods):</label>
+                <select id="b12_food" required><option value="" disabled selected hidden>Please choose...</option><option value="vegan">Very Low (e.g., Vegan, unfortified)</option><option value="vegetarian">Low (e.g., Vegetarian, some dairy/egg)</option><option value="flexitarian">Moderate (Flexitarian)</option><option value="omnivore">High (Regular animal product intake)</option></select>
+                <label for="b12_nondiet">Non-Diet Factor (e.g., Age > 50 or use of acid reducers?):</label>
+                <select id="b12_nondiet" required><option value="" disabled selected hidden>Please choose...</option><option value="no_factor">No such factor</option><option value="factor_present">Yes, factor present</option></select>
+            </fieldset>
+
+            <!-- IODINE -->
+            <fieldset>
+                <legend>Iodine</legend>
+                <label for="iodine_food">Dietary Iodine (Seafood, dairy, iodized salt):</label>
+                <select id="iodine_food" required><option value="" disabled selected hidden>Please choose...</option><option value="low">Low</option><option value="moderate">Moderate</option><option value="high">High</option></select>
+                <label for="iodine_nondiet">Non-Diet Factor (e.g., Primarily use Iodized Salt?):</label>
+                <select id="iodine_nondiet" required><option value="" disabled selected hidden>Please choose...</option><option value="poor_practice">No/Unsure (Higher Risk)</option><option value="good_practice">Yes (Lower Risk)</option></select>
+            </fieldset>
+
+            <button type="button" id="calculateButton">Show My Illustrative Snapshot</button>
+        </form>
+
+        <div id="resultsArea">
+            <h2>Illustrative Snapshot</h2>
+            <div id="vitaminDResult">Vitamin D: ...</div>
+            <div id="ironResult">Iron: ...</div>
+            <div id="folateResult">Folate: ...</div>
+            <div id="magnesiumResult">Magnesium: ...</div>
+            <div id="vitaminB12Result">Vitamin B12: ...</div>
+            <div id="iodineResult">Iodine: ...</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const calculateButton = document.getElementById('calculateButton');
+            const skinToneButtons = document.querySelectorAll('.skin-tone-btn');
+            const selectedSkinToneInput = document.getElementById('selectedSkinTone');
+            const nutritionForm = document.getElementById('nutritionForm');
+
+            skinToneButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    skinToneButtons.forEach(btn => btn.classList.remove('selected'));
+                    button.classList.add('selected');
+                    selectedSkinToneInput.value = button.dataset.value;
+                });
+            });
+
+            function getStatusText(score) {
+                if (score >= 70) return "Likely Adequate";
+                if (score >= 40) return "Potentially Okay - Review Factors";
+                return "Potentially Low - Consider Investigation";
+            }
+
+            if (calculateButton) {
+                calculateButton.addEventListener('click', () => {
+                    // --- FORM VALIDATION ---
+                    let allSelected = true;
+                    const selects = nutritionForm.querySelectorAll('select');
+                    selects.forEach(select => {
+                        if (!select.value) {
+                            allSelected = false;
+                        }
+                    });
+
+                    if (!selectedSkinToneInput.value) {
+                        alert("Please select your approximate skin tone.");
+                        return;
+                    }
+                    if (!allSelected) {
+                        alert("Please answer all questions before submitting.");
+                        return;
+                    }
+
+                    const maxScore = 100;
+
+                    // --- VITAMIN D ---
+                    const vitD_diet_val = document.getElementById('vitD_food').value;
+                    const sunlight = parseFloat(document.getElementById('sunlightHours').value) || 0;
+                    const skin = selectedSkinToneInput.value;
+                    let vitDScore = 0;
+                    if (vitD_diet_val === 'high') vitDScore += 35; else if (vitD_diet_val === 'moderate') vitDScore += 20; else vitDScore += 5; // low
+                    if (skin === 'fair') {
+                        if (sunlight >= 2) vitDScore += 65; else if (sunlight >= 1) vitDScore += 40; else if (sunlight > 0.25) vitDScore += 15;
+                    } else if (skin === 'medium') {
+                        if (sunlight >= 3) vitDScore += 55; else if (sunlight >= 1.5) vitDScore += 30; else if (sunlight > 0.5) vitDScore += 10;
+                    } else { // dark
+                        if (sunlight >= 4) vitDScore += 45; else if (sunlight >= 2) vitDScore += 20; else if (sunlight > 0.75) vitDScore += 5;
+                    }
+                    if (vitDScore > maxScore) vitDScore = maxScore; if (vitDScore < 0) vitDScore = 0;
+                    document.getElementById('vitaminDResult').textContent = `Vitamin D: ${getStatusText(vitDScore)} (Illustrative Score: ${vitDScore}/${maxScore})`;
+
+                    // --- IRON ---
+                    const iron_diet_val = document.getElementById('iron_food').value;
+                    const iron_nondiet_val = document.getElementById('iron_nondiet').value;
+                    let ironScore = 0;
+                    if (iron_diet_val === 'high') ironScore += 70; else if (iron_diet_val === 'moderate') ironScore += 40; else ironScore += 10; // low
+                    if (iron_nondiet_val === 'low_need') ironScore += 20;
+                    else if (iron_nondiet_val === 'high_need') {
+                        if (iron_diet_val === 'low') ironScore -= 25;
+                        else if (iron_diet_val === 'moderate') ironScore -= 15;
+                    }
+                    if (ironScore > maxScore) ironScore = maxScore; if (ironScore < 0) ironScore = 0;
+                    document.getElementById('ironResult').textContent = `Iron: ${getStatusText(ironScore)} (Illustrative Score: ${ironScore}/${maxScore})`;
+
+                    // --- FOLATE ---
+                    const folate_diet_val = document.getElementById('folate_food').value;
+                    const folate_nondiet_val = document.getElementById('folate_nondiet').value;
+                    let folateScore = 0;
+                    if (folate_diet_val === 'high') folateScore += 75; else if (folate_diet_val === 'moderate') folateScore += 45; else folateScore += 15; // low
+                    if (folate_nondiet_val === 'low_impact') folateScore += 15;
+                    else if (folate_nondiet_val === 'high_impact') folateScore -= 20;
+                    if (folateScore > maxScore) folateScore = maxScore; if (folateScore < 0) folateScore = 0;
+                    document.getElementById('folateResult').textContent = `Folate: ${getStatusText(folateScore)} (Illustrative Score: ${folateScore}/${maxScore})`;
+
+                    // --- MAGNESIUM ---
+                    const mg_diet_val = document.getElementById('mg_food').value;
+                    const mg_nondiet_val = document.getElementById('mg_nondiet').value;
+                    let mgScore = 0;
+                    if (mg_diet_val === 'high') mgScore += 70; else if (mg_diet_val === 'moderate') mgScore += 40; else mgScore += 10; // low
+                    if (mg_nondiet_val === 'low_stress') mgScore += 20;
+                    else if (mg_nondiet_val === 'high_stress') mgScore -= 20;
+                    if (mgScore > maxScore) mgScore = maxScore; if (mgScore < 0) mgScore = 0;
+                    document.getElementById('magnesiumResult').textContent = `Magnesium: ${getStatusText(mgScore)} (Illustrative Score: ${mgScore}/${maxScore})`;
+
+                    // --- VITAMIN B12 ---
+                    const b12_diet_val = document.getElementById('b12_food').value;
+                    const b12_nondiet_val = document.getElementById('b12_nondiet').value;
+                    let b12Score = 0;
+                    if (b12_diet_val === 'omnivore') b12Score += 80;
+                    else if (b12_diet_val === 'flexitarian') b12Score += 50;
+                    else if (b12_diet_val === 'vegetarian') b12Score += 30;
+                    else if (b12_diet_val === 'vegan') b12Score += 5;
+                    if (b12_nondiet_val === 'no_factor') b12Score += 10;
+                    else if (b12_nondiet_val === 'factor_present') b12Score -= 15;
+                    if (b12_diet_val === 'vegan' && b12Score > 30) b12Score = 30;
+                    if (b12Score > maxScore) b12Score = maxScore; if (b12Score < 0) b12Score = 0;
+                    document.getElementById('vitaminB12Result').textContent = `Vitamin B12: ${getStatusText(b12Score)} (Illustrative Score: ${b12Score}/${maxScore})`;
+
+                    // --- IODINE ---
+                    const iodine_diet_val = document.getElementById('iodine_food').value;
+                    const iodine_nondiet_val = document.getElementById('iodine_nondiet').value;
+                    let iodineScore = 0;
+                    if (iodine_diet_val === 'high') iodineScore += 50; else if (iodine_diet_val === 'moderate') iodineScore += 25; else iodineScore += 5; // low
+                    if (iodine_nondiet_val === 'good_practice') iodineScore += 50;
+                    else if (iodine_nondiet_val === 'poor_practice') iodineScore += 5; // Using non-iodized salt mainly
+                    if (iodineScore > maxScore) iodineScore = maxScore; if (iodineScore < 0) iodineScore = 0;
+                    document.getElementById('iodineResult').textContent = `Iodine: ${getStatusText(iodineScore)} (Illustrative Score: ${iodineScore}/${maxScore})`;
+                });
+            }
+        });
+    </script>
+</body>
+</html>
